@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--kafka生产者基本配置信息-->
+    <bean id="kafkaProviderConfig" class="java.util.HashMap">
+        <constructor-arg>
+            <map>
+                <!--kafka服务器地址 可以配置多个 host:port,host:port-->
+                <entry key="bootstrap.servers" value="${provider.bootstrap.servers}"/>
+                <!--生产者发送消息是否需要等到副本节点消息确认来保证消息不会丢失-->
+                <entry key="acks" value="${provider.acks}"/>
+                <!--消息发送失败是否需要重试-->
+                <entry key="retries" value="${provider.retries}"/>
+                <!--key序列化类-->
+                <entry key="key.serializer" value="${provider.key.serializer}"/>
+                <!--value序列化类-->
+                <entry key="value.serializer" value="${provider.value.serializer}"/>
+            </map>
+        </constructor-arg>
+    </bean>
+    <bean id="kafkaProducterListener" class="com.newkafka.provider.listener.KafkaServiceProducerListener"/>
+    <!--创建获取kafka生产者的工厂类对象-->
+    <bean id="producerFactory" class="org.springframework.kafka.core.DefaultKafkaProducerFactory">
+        <constructor-arg>
+            <ref bean="kafkaProviderConfig"/>
+        </constructor-arg>
+    </bean>
+    <bean id="kafkaTemplate" class="org.springframework.kafka.core.KafkaTemplate">
+        <constructor-arg name="producerFactory" ref="producerFactory"/>
+        <!--autoFlush为true表示生产者同步发送kafka消息，保持消息的稳定性-->
+        <constructor-arg name="autoFlush" value="true"/>
+        <property name="defaultTopic" value="${provider.topicName}"/>
+        <property name="producerListener" ref="kafkaProducterListener"/>
+    </bean>
+
+</beans>

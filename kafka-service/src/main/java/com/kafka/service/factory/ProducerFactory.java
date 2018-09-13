@@ -79,7 +79,7 @@ public class ProducerFactory {
         properties.put("metadata.broker.list", topicInfo.getBrokerList());
         properties.put("request.required.acks", topicInfo.getRequiredAck().getAck());
         properties.put("producer.type", topicInfo.getSync().getSyncFlag());
-        properties.put("serializer.class", "com.kafka.service.serializer.MessageSerializer");
+        properties.put("serializer.class", "com.kafka.provider.serializer.MessageSerializer");
         properties.put("message.send.max.retries", topicInfo.isRetries() ? "1" : "0");
         properties.put("request.timeout.ms", "3000");
         properties.put("topic.metadata.refresh.interval.ms", topicInfo.getRefreshInterval().toString());
