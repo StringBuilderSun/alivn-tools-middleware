@@ -10,6 +10,7 @@
     <modules>
         <module>kafka-service</module>
         <module>kafka-newservice</module>
+        <module>dubbo-histrix</module>
     </modules>
     <properties>
         <org.springframework.version>4.3.11.RELEASE</org.springframework.version>
