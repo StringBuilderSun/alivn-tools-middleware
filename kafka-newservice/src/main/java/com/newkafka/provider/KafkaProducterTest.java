@@ -9,6 +9,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by lijinpeng on 2018/9/10.
@@ -17,24 +18,17 @@ import java.util.List;
 public class KafkaProducterTest {
 
     public static void main(String[] args) throws InterruptedException {
-
-           provideMessage();
-
-    }
-
-    public static void provideMessage() {
-        String location = "properties/spring/spring-context.xml";
+        String location = "properties/spring/spring-provider.xml";
         ApplicationContext context = new ClassPathXmlApplicationContext(location);
         KafkaTemplate kafkaTemplate = context.getBean("kafkaTemplate", KafkaTemplate.class);
         List<String> viewsPages = new ArrayList<String>();
         viewsPages.add("心灵鸡汤-001");
         viewsPages.add("人生感悟-002");
-        MessageNotifyModel messageNotifyModel = new MessageNotifyModel("001", "lijinpeng", "2018-09-10", viewsPages, "3600");
-        String message = JsonUtil.toJson(messageNotifyModel);
-        kafkaTemplate.sendDefault(message);
+        for (int i = 0; i < 1000; i++) {
+            TimeUnit.SECONDS.sleep(1);
+            MessageNotifyModel messageNotifyModel = new MessageNotifyModel(String.valueOf(i), "lijinpeng", "2018-09-10", viewsPages, "3600");
+            String message = JsonUtil.toJson(messageNotifyModel);
+            kafkaTemplate.sendDefault(message);
+        }
     }
-
-
-
-
 }
