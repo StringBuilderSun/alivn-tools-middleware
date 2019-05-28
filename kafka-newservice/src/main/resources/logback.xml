@@ -39,6 +39,7 @@
     <!-- ===== [框架Logger] ===== -->
     <logger name="org.apache.kafka.clients.consumer.internals" level="INFO"/>
     <logger name="org.apache.kafka" level="INFO"/>
+    <logger name="org.springframework.kafka.listener" level="DEBUG"/>
     <!-- 线上日志输出到文件 -->
     <root level="INFO" name="kafka-service" activite="true">
         <appender-ref ref="asyncFile"/>

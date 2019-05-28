@@ -6,9 +6,11 @@ import org.springframework.kafka.listener.MessageListener;
 import sun.nio.ch.IOUtil;
 
 import java.io.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 消费消息监听器
+ * Message
  * Created by lijinpeng on 2018/9/13.
  */
 @Slf4j
@@ -26,6 +28,11 @@ public class KafkaServiceConsumerListener implements MessageListener<String, Str
             e.printStackTrace();
         }
         log.info("消息已被成功消费:{}", stringStringConsumerRecord.toString());
+        try {
+            TimeUnit.MICROSECONDS.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         //doBusiness() 做一些业务处理
     }
 }

@@ -19,13 +19,13 @@ public class KafkaProducterTest {
 
     public static void main(String[] args) throws InterruptedException {
         String location = "properties/spring/spring-provider.xml";
-        ApplicationContext context = new ClassPathXmlApplicationContext(location);
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(location);
         KafkaTemplate kafkaTemplate = context.getBean("kafkaTemplate", KafkaTemplate.class);
         List<String> viewsPages = new ArrayList<String>();
         viewsPages.add("心灵鸡汤-001");
         viewsPages.add("人生感悟-002");
-        for (int i = 0; i < 1000; i++) {
-            TimeUnit.SECONDS.sleep(1);
+        for (int i = 0; i < 100; i++) {
+            TimeUnit.MICROSECONDS.sleep(100);
             MessageNotifyModel messageNotifyModel = new MessageNotifyModel(String.valueOf(i), "lijinpeng", "2018-09-10", viewsPages, "3600");
             String message = JsonUtil.toJson(messageNotifyModel);
             kafkaTemplate.sendDefault(message);

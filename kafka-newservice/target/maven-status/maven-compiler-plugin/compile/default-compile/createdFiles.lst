@@ -1,4 +1,0 @@
-com\newkafka\provider\utils\JsonUtil.class
-com\newkafka\provider\listener\KafkaServiceProducerListener.class
-com\newkafka\provider\model\MessageNotifyModel.class
-com\newkafka\provider\KafkaProducterTest.class

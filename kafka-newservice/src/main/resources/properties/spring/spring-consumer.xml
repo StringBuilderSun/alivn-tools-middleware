@@ -8,6 +8,7 @@
        http://www.springframework.org/schema/context/spring-context.xsd">
     <!--kafka消费者配置信息-->
     <context:property-placeholder location="classpath*:properties/config/kafka-consumer.properties,classpath*:properties/config/kafka-provider.properties"/>
+
     <bean id="kafkaConsumerConfig" class="java.util.HashMap">
         <constructor-arg>
             <map>
@@ -19,17 +20,23 @@
                 <entry key="value.deserializer" value="${consumer.value.deserializer}"/>
                 <!--不使用位移自动提交，用spring封装的位移处理方式-->
                 <entry key="enable.auto.commit" value="${consumer.enable.auto.commit}"/>
+                <entry key="max.poll.records" value="${max.poll.records}"/>
             </map>
         </constructor-arg>
     </bean>
+
     <!--声明消费工厂-->
+
     <bean id="consumerFactory" class="org.springframework.kafka.core.DefaultKafkaConsumerFactory">
         <constructor-arg>
             <ref bean="kafkaConsumerConfig"/>
         </constructor-arg>
     </bean>
+
     <!--配置消息监听器 实际消费消息业务的类-->
+
     <bean id="consumerPorxy" class="com.newkafka.consumer.listener.KafkaServiceConsumerListener"/>
+
     <bean id="containerProperties" class="org.springframework.kafka.listener.config.ContainerProperties">
         <constructor-arg value="${consumer.topicName}"/>
         <!--每接收到一次消息 就 ack 一次  安全性最高 -->
@@ -38,7 +45,8 @@
         <!--处理消息的监听业务类-->
         <property name="messageListener" ref="consumerPorxy"/>
     </bean>
-    <!--配置消费者容器-->
+
+    <!--配置消费者容器  多线程消费-->
     <bean id="messageListenerContainer" class="org.springframework.kafka.listener.ConcurrentMessageListenerContainer"
           init-method="doStart">
         <constructor-arg ref="consumerFactory"/>
@@ -46,4 +54,7 @@
         <!--多线程消费-->
         <property name="concurrency" value="3"/>
     </bean>
+
+
+
 </beans>
