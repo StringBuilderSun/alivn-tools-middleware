@@ -29,7 +29,7 @@
         </rabbit:bindings>
     </rabbit:topic-exchange>
     <!-- 给模板指定转换器 --><!-- mandatory必须设置true,return callback才生效 -->
-    <rabbit:template id="rabbitTemplate" connection-factory="connectionFactory"
+    <rabbit:template id="rabbitTemplate" connection-factory="connectionFactory" routing-key="${rabbit.bind.pattern}"
                      exchange="${rabbit.exchange.name}"
                      confirm-callback="messageConfirmCallBack"
                      return-callback="messageFailReturnCallback"
