@@ -20,7 +20,7 @@
         <spring.kafka.version>2.0.0.RELEASE</spring.kafka.version>
         <kafka.version>0.8.1.1</kafka.version>
         <logback.version>1.1.1</logback.version>
-        <google.gson>2.7</google.gson>
+        <google.gson>2.8.9</google.gson>
         <lombok.version>1.16.4</lombok.version>
         <slf4j.version>1.7.7</slf4j.version>
     </properties>
